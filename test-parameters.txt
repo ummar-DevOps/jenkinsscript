@@ -28,6 +28,12 @@ pipeline {
             steps {
                 sh "mvn deploy -Dnexusreleaseurl=${nexusreleaseurl} -Dnexussnapshoturl=${nexussnapshoturl}"
             }
-        } 
+        }
+        stage ('deploy application in tomcat'){
+            steps {
+                sshagent(['4ee68e36-325b-4d18-b232-cd78daa53e67']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.6.40.57:/opt/apache-tomcat-9.0.56/webapps/" }
+            }
+        }
     }
 }
