@@ -5,6 +5,8 @@ pipeline {
     }
     parameters{
         string(name:'sonarqubeurl', defaultValue:"none", description:"Here we have to pass sonarqube url..")
+        string(name:'nexusreleaseurl', defaultValue:"none", description:"Here we have to pass nexus release url..")
+        string(name:'nexussnapshoturl', defaultValue:"none", description:"Here we have to pass nexus snapshot url..")
     }
     stages{
         stage ('checkout code'){
