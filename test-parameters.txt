@@ -7,6 +7,7 @@ pipeline {
         string(name:'sonarqubeurl', defaultValue:"none", description:"Here we have to pass sonarqube url..")
         string(name:'nexusreleaseurl', defaultValue:"none", description:"Here we have to pass nexus release url..")
         string(name:'nexussnapshoturl', defaultValue:"none", description:"Here we have to pass nexus snapshot url..")
+        string(name:'tomcatip', defaultValue:"none", description:"Here we have to pass tomact pubilc ip..")
     }
     stages{
         stage ('checkout code'){
@@ -32,7 +33,7 @@ pipeline {
         stage ('deploy application in tomcat'){
             steps {
                 sshagent(['4ee68e36-325b-4d18-b232-cd78daa53e67']) {
-    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.6.40.57:/opt/apache-tomcat-9.0.56/webapps/" }
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@${tomcatip}:/opt/apache-tomcat-9.0.56/webapps/" }
             }
         }
     }
