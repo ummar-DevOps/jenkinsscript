@@ -26,7 +26,7 @@ pipeline {
         }
         stage ('upload to nexus'){
             steps {
-                sh "mvn deploy -Dnexusreleaseurl='$nexusreleaseurl' -Dnexussnapshoturl='${nexussnapshoturl}'"
+                sh "mvn deploy -Dnexusreleaseurl=${nexusreleaseurl} -Dnexussnapshoturl=${nexussnapshoturl}"
             }
         } 
     }
