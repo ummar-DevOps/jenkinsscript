@@ -1,0 +1,13 @@
+pipeline {
+    agent {
+        label 'localslave'
+    }
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}

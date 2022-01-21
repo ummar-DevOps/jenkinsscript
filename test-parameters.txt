@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    tools {
+        maven "maven3.6.3"
+    }
+    parameters{
+        string(name:'sonarqubeurl', defaultValue:"none", description:"Here we have to pass sonarqube url..")
+    }
+    stages{
+        stage ('checkout code'){
+            steps {
+                 git branch: 'stage', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/maven-web.git'
+            }
+        }
+        stage ('build package'){
+            steps {
+                sh "mvn clean package"
+                //sh "sed -i '/<soanr.host.url>/c <sonar.host.url>'${sonarqubeurl}'</sonar.host.url>' pom.xml"
+            }
+        }
+        /*stage ('path'){
+            steps {
+                sh "pwd"
+                sh "ls"
+            }
+        }*/
+        stage ('sonarqube report'){
+            steps {
+                //sh "sed -i '/<soanr.host.url>/c <sonar.host.url>'${sonarqubeurl}'</sonar.host.url>' pom.xml"
+                sh "mvn clean sonar:sonar -Dsonar.host.url=${sonarqubeurl}"
+            }
+        }
+    }
+}

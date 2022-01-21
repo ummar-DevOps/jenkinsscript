@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven3.8.4'
+    }
+    stages {
+        stage ('checkoutcode') { 
+        steps {
+            git branch: 'development', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/maven-web.git'
+            
+        }
+        }
+        stage ('parallel excution') {
+            parallel {
+                stage ('test cases'){
+                    steps {
+                        sh "mvn clean test" 
+                    }
+                }
+                stage ('build') {
+                    steps {
+                        sh "mvn package"
+                    }
+                }
+            }
+        }
+        stage ('executive sonarqubereport'){
+            steps {
+            sh "mvn sonar:sonar"
+                
+            }
+        }
+        stage ('artifacte upload to nexus'){
+            steps {
+                sh "mvn deploy"
+            }
+        }
+        stage ('deploy into tomcat'){
+            steps {
+                sshagent(['7754cd1b-ac94-41df-9345-3967311498d7']) {
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@35.154.57.215:/opt/apache-tomcat-9.0.56/webapps/"
+
+            }
+            }
+        }
+    }
+    
+}

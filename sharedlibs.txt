@@ -1,0 +1,66 @@
+@Library ('uksharedlibs') _
+
+pipeline {
+    agent any 
+    
+   parameters{
+		choice(name:"github", choices:["none","github"], description:"we have to select to get from github or not..")
+		choice(name:"gitlab", choices:["none","gitlab"], description:"we have to select to get from gitlab or not..")
+		choice(name:"reponame", choices:["none","maven-web","webapplication"],description:"we can select repos")
+        choice(name:"branchname", choices:["none","master","development","test"], description: "we can select gitbranchs..")
+        choice(name:"mavenversion", choices: ["none","maven3.6.3","maven3.8.4"],description: "we can select maven version")
+        choice(name:"sonarqubecommand", choices:["none","run"], description:"we can run or skip this stage")
+        choice(name:"nexuscommand", choices:["none","run"], description:"we can run or skip this stage")
+        choice(name:"tomcatcommand", choices:["none","run"], description:"we can run or skip this stage")
+    }
+    tools {
+        maven "${mavenversion}" 
+    }
+    stages {
+        stage ('github code') {
+		when{ 
+              expression {"${github}" == 'github' } }
+            steps {
+               git branch: '${branchname}', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/${reponame}.git'
+            }
+        }
+		stage ('gitlab code') {
+		when{ 
+              expression {"${gitlab}" == 'gitlab' } }
+            steps {
+               git branch: '${branchname}', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://gitlab.com/faroq05/${reponame}.git' 
+            }
+        }
+        stage ('build'){
+            steps{
+            stages ("Build")
+			sh "mvn -version"
+        }
+        }
+       stage ('execute sonarqube report'){
+           when{ 
+              expression {"${sonarqubecommand}" == 'run' } }
+           steps{
+              
+               stages ("SonarQube Report")
+           }
+       }
+       stage ('artifact upload to nexus'){
+           when{ 
+              expression {"${nexuscommand}" == 'run' } }
+           steps{
+               stages ("Upload Into Nexus")
+           }
+           
+       }
+       stage ('application deploy in tomcat'){
+           when{ 
+              expression {"${tomcatcommand}" == 'run' } }
+            steps{
+               sshagent(['4ee68e36-325b-4d18-b232-cd78daa53e67']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.6.40.57:/opt/apache-tomcat-9.0.56/webapps/"
+}
+           }
+       }
+    }
+}
