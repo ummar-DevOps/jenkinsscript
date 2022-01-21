@@ -15,20 +15,17 @@ pipeline {
         stage ('build package'){
             steps {
                 sh "mvn clean package"
-                //sh "sed -i '/<soanr.host.url>/c <sonar.host.url>'${sonarqubeurl}'</sonar.host.url>' pom.xml"
             }
         }
-        /*stage ('path'){
-            steps {
-                sh "pwd"
-                sh "ls"
-            }
-        }*/
         stage ('sonarqube report'){
             steps {
-                //sh "sed -i '/<soanr.host.url>/c <sonar.host.url>'${sonarqubeurl}'</sonar.host.url>' pom.xml"
-                sh "mvn clean sonar:sonar -Dsonar.host.url=${sonarqubeurl}"
+                sh "mvn clean sonar:sonar -Dsonarqubeurl=${sonarqubeurl}"
             }
         }
+        stage ('upload to nexus'){
+            steps {
+                sh "mvn deploy -Dnexusreleaseurl='$nexusreleaseurl' -Dnexussnapshoturl='${nexussnapshoturl}'"
+            }
+        } 
     }
 }
