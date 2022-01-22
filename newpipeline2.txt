@@ -40,7 +40,7 @@ pipeline {
         }
         stage ('execute sonarqube report'){
            when{ 
-              expression {"${sonarqubecommand}" ==! 'none' } }
+              expression {"${sonarqubecommand}" == 'run' } }
            steps{
               
                sh "mvn sonar:sonar -Dsonar.host.url=http:65.0.94.157:9000 -Dsonar.login=15502536d2505d10d8b0addc74b79dad7ec7e8cb"
@@ -48,7 +48,7 @@ pipeline {
        }
        stage ('artifact upload to nexus'){
            when{ 
-              expression {"${nexuscommand}" ==! 'none' } }
+              expression {"${nexuscommand}" == 'run' } }
            steps{
                sh "mvn deploy"
            }
@@ -56,7 +56,7 @@ pipeline {
        }
        stage ('application deploy in tomcat'){
            when{ 
-              expression {"${tomcatcommand}" ==! 'none' } }
+              expression {"${tomcatcommand}" == 'run' } }
             steps{
                sshagent(['4ee68e36-325b-4d18-b232-cd78daa53e67']) {
     sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.6.40.57:/opt/apache-tomcat-9.0.56/webapps/"
