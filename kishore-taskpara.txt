@@ -40,7 +40,7 @@ pipeline {
               expression {"${sonarqubecommand}" == 'run' } }
            steps{
               
-               sh "mvn sonar:sonar -Dsonar.host.url=http://3.6.41.225:9000/ -Dsonar.login=15502536d2505d10d8b0addc74b79dad7ec7e8cb"
+               sh "mvn sonar:sonar "
            }
        }
        stage ('artifact upload to nexus'){
