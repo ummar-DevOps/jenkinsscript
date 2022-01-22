@@ -17,14 +17,14 @@ pipeline {
     stages {
         stage ('github code') {
 		when{ 
-              expression {"${github}" ==! 'none' } }
+              expression {"${github}" == 'github' } }
             steps {
                git branch: '${branchname}', credentialsId:'8707530d-7105-4261-8e79-46d0972584d0', url:'https://github.com/ummar-DevOps/${reponame}.git'
             }
         }
 		stage ('gitlab code') {
 		when{ 
-              expression {"${gitlab}" ==! 'none' } }
+              expression {"${gitlab}" == 'gitlab' } }
             steps {
                git branch: '${branchname}', credentialsId:'8707530d-7105-4261-8e79-46d0972584d0', url:'https://gitlab.com/faroq05/${reponame}.git' 
             }
