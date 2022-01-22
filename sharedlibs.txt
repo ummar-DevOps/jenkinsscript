@@ -31,6 +31,11 @@ pipeline {
                git branch: '${branchname}', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://gitlab.com/faroq05/${reponame}.git' 
             }
         }
+	stage ('test') {
+		steps {
+			build ("Test")
+		}
+	}
         stage ('build'){
             steps{
             stages ("Build")
