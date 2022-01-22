@@ -19,14 +19,14 @@ pipeline {
 		when{ 
               expression {"${github}" ==! 'none' } }
             steps {
-               git branch: '${branchname}', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/${reponame}.git'
+               git branch: '${branchname}', credentialsId:'8707530d-7105-4261-8e79-46d0972584d0', url:'https://github.com/ummar-DevOps/${reponame}.git'
             }
         }
 		stage ('gitlab code') {
 		when{ 
               expression {"${gitlab}" ==! 'none' } }
             steps {
-               git branch: '${branchname}', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://gitlab.com/faroq05/${reponame}.git' 
+               git branch: '${branchname}', credentialsId:'8707530d-7105-4261-8e79-46d0972584d0', url:'https://gitlab.com/faroq05/${reponame}.git' 
             }
         }
         stage ('build'){
@@ -40,7 +40,7 @@ pipeline {
               expression {"${sonarqubecommand}" == 'run' } }
            steps{
               
-               sh "mvn sonar:sonar -Dsonar.host.url=http:65.0.94.157:9000 -Dsonar.login=15502536d2505d10d8b0addc74b79dad7ec7e8cb"
+               sh "mvn sonar:sonar -Dsonar.host.url=http://3.6.41.225:9000/ -Dsonar.login=15502536d2505d10d8b0addc74b79dad7ec7e8cb"
            }
        }
        stage ('artifact upload to nexus'){
