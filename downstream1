@@ -21,7 +21,7 @@ pipeline {
                 }
                 stage ('Hari') {
                     steps {
-                        echo "Hello Hari" //hari macha
+                        echo "Hello Hari" //hari 
                     }
                 }
             }
