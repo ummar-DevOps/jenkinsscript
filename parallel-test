@@ -12,17 +12,19 @@ pipeline {
                 git branch: 'development', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/maven-web.git'
             }
                 }
-            stage ("maven bulid"){
-            steps {
-                sh 'mvn clean package'
-            }
-            }
-            }
-        }
-        stage ('hello'){
+                stage ('hello'){
             steps {
                 echo "hello world"
             }
         }
+            
+            }
+        }
+        stage ("maven bulid"){
+            steps {
+                sh 'mvn clean package'
+            }
+            }
+        
     }//stages
 }//pipeline
