@@ -13,12 +13,12 @@ pipeline {
 			parallel {
 				stage('test code') {
 					steps {
-						mvn clean test
+						sh "mvn clean test"
 					}
 				}
 				stage ('build') {
 					steps {
-						mvn package
+						sh "mvn package"
 					}
 				}
 			}
