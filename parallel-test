@@ -5,11 +5,6 @@ pipeline {
     }
 
     stages {
-        stage ('hello'){
-            steps {
-                echo "hello world"
-            }
-        }
         stage('parallelstage') {
             parallel {
                 stage ('checkoutcode'){
@@ -22,6 +17,11 @@ pipeline {
                 sh 'mvn clean package'
             }
             }
+            }
+        }
+        stage ('hello'){
+            steps {
+                echo "hello world"
             }
         }
     }//stages
