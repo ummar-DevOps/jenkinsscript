@@ -1,0 +1,27 @@
+pipeline {
+	agent any 
+	tools {
+		maven3.6.3
+	}
+	stages {
+		stage ('checkout code') {
+			steps {
+				git branch: 'development', credentialsId: '8707530d-7105-4261-8e79-46d0972584d0', url: 'https://github.com/ummar-DevOps/maven-web.git'
+			}
+		}
+		stage ('parallel stage') {
+			parallel {
+				stage('test code') {
+					steps {
+						mvn clean test
+					}
+				}
+				stage ('build') {
+					steps {
+						mvn package
+					}
+				}
+			}
+		}
+	}
+}
