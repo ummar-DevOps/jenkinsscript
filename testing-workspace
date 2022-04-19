@@ -14,6 +14,7 @@ parameters{
 					    doGenerateSubmoduleConfigurations: false, 
 		                            extensions: [[$class: 'CleanBeforeCheckout']], 
 					                      extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]],
+							      extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '${params.GITREPO}']],
 					                      gitTool: 'Default', submoduleCfg: [], 
 		                            userRemoteConfigs: [[credentialsId: 'umar_git', 
 		                            url: "https://github.com/ummar-DevOps/${params.GITREPO}.git"]]
