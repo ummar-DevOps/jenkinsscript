@@ -11,8 +11,10 @@ parameters{
 		cleanWs()
 		echo "Pulling changes from branch ${params.GIT_BRANCHES} and from repo ${params.GITREPO}"		
 		checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: "${params.GIT_BRANCHES}"]], 
+					step([$class: 'WsCleanup'])
 					    doGenerateSubmoduleConfigurations: false, 
 		                            extensions: [[$class: 'CleanBeforeCheckout']], 
+					    
 					                      extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]],
 							      extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${params.GITREPO}"]],
 					                      gitTool: 'Default', submoduleCfg: [], 
