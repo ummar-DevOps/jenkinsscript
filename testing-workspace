@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+parameters{
+	 
+      choice(choices: ['--None--','maven-standalone','maven-web'], description: 'Select Git Repo Name', name: 'GITREPO')
+	    choice(choices: ['--None--','master'], description: 'Select the Git Branch Name', name: 'GIT_BRANCHES')
+	    }
+    stages {
+        stage('SCM') { 	
+	steps { 
+		cleanWs()
+		echo "Pulling changes from branch ${params.GIT_BRANCHES} and from repo ${params.GITREPO}"		
+		checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: "${params.GIT_BRANCHES}"]], 
+					    doGenerateSubmoduleConfigurations: false, 
+		                            extensions: [[$class: 'CleanBeforeCheckout']], 
+					                      extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]],
+					                      gitTool: 'Default', submoduleCfg: [], 
+		                            userRemoteConfigs: [[credentialsId: 'githubusername', 
+		                            url: "https://github.com/ummar-DevOps/${params.GITREPO}.git"]]
+					   ]
+		}
+	}
+    }
+}
