@@ -15,7 +15,7 @@ parameters{
 		                            extensions: [[$class: 'CleanBeforeCheckout']], 
 					                      extensions: [[$class: 'CloneOption', depth: 1, noTags: false, reference: '', shallow: true]],
 					                      gitTool: 'Default', submoduleCfg: [], 
-		                            userRemoteConfigs: [[credentialsId: 'githubusername', 
+		                            userRemoteConfigs: [[credentialsId: 'umar_git', 
 		                            url: "https://github.com/ummar-DevOps/${params.GITREPO}.git"]]
 					   ]
 		}
