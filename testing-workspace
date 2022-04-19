@@ -10,7 +10,7 @@ parameters{
 	steps { 
 		//cleanWs()
 		echo "Pulling changes from branch ${params.GIT_BRANCHES} and from repo ${params.GITREPO}"
-		step([$class: 'WsCleanup'])
+		//step([$class: 'WsCleanup'])
 		checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: "${params.GIT_BRANCHES}"]], 
 					
 					    doGenerateSubmoduleConfigurations: false, 
